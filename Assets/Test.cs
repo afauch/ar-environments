@@ -9,6 +9,8 @@ public class Test : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
+        GetComponent<VRTK_ControllerEvents>().TriggerClicked += DoTriggerClicked;
+
     }
 
     private void DoTriggerClicked(object sender, ControllerInteractionEventArgs e)
