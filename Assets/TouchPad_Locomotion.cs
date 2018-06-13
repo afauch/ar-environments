@@ -5,6 +5,8 @@ using VRTK;
 
 public class TouchPad_Locomotion : MonoBehaviour {
 
+
+
 	// Use this for initialization
 	void Start () {
 		
