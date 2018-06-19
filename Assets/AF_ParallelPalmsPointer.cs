@@ -13,7 +13,14 @@ public class AF_ParallelPalmsPointer : MonoBehaviour
     public AttachmentPointBehaviour _indexMiddleJoint;
     public AttachmentPointBehaviour _thumbTip;
     public GameObject _cursor;
+    public GameObject _aroundCursor;
+
+    private float _maxScale = 6.0f;
+    private float _unThreshold = 0.03f;
+
     public LayerMask _layers;
+
+    public bool _drawLine = false;
 
     public float _thresholdDistance = 0.02f;
 
@@ -52,6 +59,15 @@ public class AF_ParallelPalmsPointer : MonoBehaviour
 
     void DrawPointer()
     {
+
+        if(_drawLine)
+        {
+            _lr.enabled = true;
+        }
+        else
+        {
+            _lr.enabled = false;
+        }
 
         // Raycast to find the right point
         RaycastHit hit;
@@ -108,9 +124,10 @@ public class AF_ParallelPalmsPointer : MonoBehaviour
     }
 
 
-    public static bool GetIsDown(Transform thumbTransform, Transform indexMiddleJointTransform, float thresholdDistance)
+    public bool GetIsDown(Transform thumbTransform, Transform indexMiddleJointTransform, float thresholdDistance)
     {
         float d = Vector3.Distance(thumbTransform.position, indexMiddleJointTransform.position);
+        _aroundCursor.transform.localScale = Vector3.Lerp(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(_maxScale, _maxScale, _maxScale), (d/_unThreshold - _thresholdDistance));
         return d < thresholdDistance ? true : false;
     }
 
