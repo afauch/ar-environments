@@ -48,12 +48,12 @@ public class AF_DetectExtended : MonoBehaviour {
 
             if (_isExtended)
             {
-                Debug.Log("Begin extended " + gameObject.name);
+                // Debug.Log("Begin extended " + gameObject.name);
                 OnBeginExtended.Invoke();
             }
             else
             {
-                Debug.Log("End extended " + gameObject.name);
+                // Debug.Log("End extended " + gameObject.name);
                 OnEndExtended.Invoke();
             }
         }
