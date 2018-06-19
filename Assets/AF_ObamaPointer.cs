@@ -37,8 +37,6 @@ public class AF_ObamaPointer : MonoBehaviour {
         if(Physics.Raycast(_indexMiddleJoint.transform.position, _indexMiddleJoint.transform.position - _thumbProximalJoint.transform.position, out hit, Mathf.Infinity))
         {
 
-            Debug.Log("hit");
-
             positions = new Vector3[]
             {
                 _thumbProximalJoint.transform.position,
