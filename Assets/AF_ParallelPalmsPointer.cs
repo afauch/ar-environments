@@ -12,8 +12,19 @@ public class AF_ParallelPalmsPointer : MonoBehaviour
     public AttachmentPointBehaviour _rightPalm;
     public AttachmentPointBehaviour _indexMiddleJoint;
     public AttachmentPointBehaviour _thumbTip;
+
+    [Header("Cursor")]
+    private bool _show = false;
     public GameObject _cursor;
     public GameObject _aroundCursor;
+
+    [Header("Fist Detection")]
+    public AttachmentPointBehaviour _indexTip;
+    public AttachmentPointBehaviour _middleTip;
+    public AttachmentPointBehaviour _ringTip;
+    public AttachmentPointBehaviour _pinkyTip;
+    public float _fistThreshold = 0.08f;
+    private bool _isFist = false;
 
     private float _maxScale = 6.0f;
     private float _unThreshold = 0.03f;
@@ -52,9 +63,63 @@ public class AF_ParallelPalmsPointer : MonoBehaviour
     void Update()
     {
 
-        DrawPointer();
-        CheckClick();
+        if (ShowCursor())
+        {
+            DrawPointer();
+            CheckClick();
+        }
 
+    }
+
+    bool ShowCursor()
+    {
+        // get the current state of the fist
+        bool fist = GetIsFist();
+
+        // if the current state is different than the previous frame's state...
+        if (fist != _isFist)
+        {
+
+            // let the cursor know the fist state. If fist, then it will show
+            _cursor.GetComponent<AF_Cursor>().Show(fist);
+
+            // Update this frame
+            _isFist = fist;
+        } else
+        {
+            _isFist = fist;
+        }
+
+        return fist;
+
+    }
+
+
+    bool GetIsFist()
+    {
+        bool fist = false;
+
+        float avg = GetFourFingerAvg();
+        if (avg >= 1.0f)
+        {
+            fist = true;
+        }
+
+        return fist;
+    }
+
+    float GetFourFingerAvg()
+    {
+        float fourFingerAvg = 0;
+
+        float index = Vector3.Distance(_indexTip.transform.position, _rightPalm.transform.position) < _fistThreshold ? 1.0f : 0.0f;
+        float middle = Vector3.Distance(_middleTip.transform.position, _rightPalm.transform.position) < _fistThreshold ? 1.0f : 0.0f;
+        float ring = Vector3.Distance(_ringTip.transform.position, _rightPalm.transform.position) < _fistThreshold ? 1.0f : 0.0f;
+        float pinky = Vector3.Distance(_pinkyTip.transform.position, _rightPalm.transform.position) < _fistThreshold ? 1.0f : 0.0f;
+
+        fourFingerAvg = (index + middle + ring + pinky) / 4;
+
+        return fourFingerAvg;
     }
 
     void DrawPointer()
