@@ -220,6 +220,7 @@ namespace Crayon.Core
             }
             else
             {
+
                 while (elapsedTime < duration)
                 {
                     // update the transform

@@ -52,7 +52,7 @@ public class AF_BounceSnap : MonoBehaviour {
             //TODO: Currently tween is going to the wrong place
             _snappableObject.transform.SetParent(null);
             _snappableObject.SetTransform(_pinchMidpoint.transform, _tweenLength, Easing.BounceOut);
-            yield return new WaitForSeconds(_tweenLength);
+            yield return new WaitForSeconds(_tweenLength + 0.01f);
             _snappableObject.transform.SetParent(_pinchMidpoint);
             _snappableObject.transform.localPosition = Vector3.zero;
             //_snappableObject.transform.position = _pinchMidpoint.transform.position;
