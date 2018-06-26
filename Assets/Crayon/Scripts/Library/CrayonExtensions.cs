@@ -181,14 +181,27 @@ namespace Crayon
 			CrayonRouter.TweenPosition (gameObject, targetPosition, duration, easing, false, false, cubicBezier);
 		}
 
-		/// <summary>
-		/// Transitions the GameObject to a position relative to its current position.
-		/// </summary>
-		/// <param name="targetPosition">The desired offset from the GameObject's current position.</param>
-		/// <param name="duration">The duration of the transition.</param>
-		/// <param name="easing">Easing function that the transition should follow.</param>
-		/// <param name="cubicBezier">If using Easing.Custom, this is the cubic bezier curve that defines the easing function, in the format P0,P1,P2,P3.</param>
-		public static void SetRelativePosition(this GameObject gameObject, Vector3 targetPosition, float duration = Defaults._duration, Easing easing = Defaults._easing, string cubicBezier = Defaults._cubicBezier)
+        /// <summary>
+        /// Transitions the GameObject to a specific transform.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to modify.</param>
+        /// <param name="targetPosition">The target localPosition.</param>
+        /// <param name="duration">The duration of the transition.</param>
+        /// <param name="easing">Easing function that the transition should follow.</param>
+        /// <param name="cubicBezier">If using Easing.Custom, this is the cubic bezier curve that defines the easing function, in the format P0,P1,P2,P3.</param>
+        public static void SetTransform(this GameObject gameObject, Transform targetTransform, float duration = Defaults._duration, Easing easing = Defaults._easing, string cubicBezier = Defaults._cubicBezier)
+        {
+            CrayonRouter.TweenTransform(gameObject, targetTransform, duration, easing, false, false, cubicBezier);
+        }
+
+        /// <summary>
+        /// Transitions the GameObject to a position relative to its current position.
+        /// </summary>
+        /// <param name="targetPosition">The desired offset from the GameObject's current position.</param>
+        /// <param name="duration">The duration of the transition.</param>
+        /// <param name="easing">Easing function that the transition should follow.</param>
+        /// <param name="cubicBezier">If using Easing.Custom, this is the cubic bezier curve that defines the easing function, in the format P0,P1,P2,P3.</param>
+        public static void SetRelativePosition(this GameObject gameObject, Vector3 targetPosition, float duration = Defaults._duration, Easing easing = Defaults._easing, string cubicBezier = Defaults._cubicBezier)
 		{
 			CrayonRouter.TweenPosition (gameObject, targetPosition, duration, easing, false, true, cubicBezier);
 		}

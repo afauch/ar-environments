@@ -133,10 +133,25 @@ namespace Crayon.Core
 			}
 		}
 
-		/// <summary>
-		/// Generic method to handle all rotation transitions.
-		/// </summary>
-		public static void TweenRotation(GameObject gameObject, Quaternion targetRotation, float duration, Easing easing, bool destroy, bool isRelative, string cubicBezier)
+        /// <summary>
+        /// Generic method to handle all position transitions.
+        /// </summary>
+        public static void TweenTransform(GameObject gameObject, Transform targetTransform, float duration, Easing easing, bool destroy, bool isRelative, string cubicBezier)
+        {
+            if (CrayonRunner.Instance == null)
+            {
+                Debug.LogWarning(CrayonMessages.PrefabMissing);
+            }
+            else
+            {
+                CrayonRunner.Instance.Run(CrayonTweenCoroutines.TweenTransformCoroutine(gameObject, targetTransform, duration, easing, destroy, cubicBezier));
+            }
+        }
+
+        /// <summary>
+        /// Generic method to handle all rotation transitions.
+        /// </summary>
+        public static void TweenRotation(GameObject gameObject, Quaternion targetRotation, float duration, Easing easing, bool destroy, bool isRelative, string cubicBezier)
 		{
             if (CrayonRunner.Instance == null)
             {

@@ -44,7 +44,7 @@ public class AF_DetectExtended : MonoBehaviour {
         if (GetIsExtended(_thisFinger.transform, _palm.transform, _thresholdDistance) != _isExtended)
         {
             _isExtended = !_isExtended;
-            Debug.Log(_isExtended);
+            // Debug.Log(_isExtended);
 
             if (_isExtended)
             {

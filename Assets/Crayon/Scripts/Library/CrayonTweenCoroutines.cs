@@ -204,10 +204,51 @@ namespace Crayon.Core
 			}
 		}
 
-		/// <summary>
-		/// Coroutine for tweening rotation.
-		/// </summary>
-		public static IEnumerator TweenRotationCoroutine(GameObject gameObject, Quaternion targetRotation, float duration, Easing easing, bool destroy, bool isRelative, string cubicBezier)
+        /// <summary>
+        /// Coroutine for tweening to a transform, which may change during the tween.
+        /// </summary>
+        public static IEnumerator TweenTransformCoroutine(GameObject gameObject, Transform targetTransform, float duration, Easing easing, bool destroy, string cubicBezier)
+        {
+            float elapsedTime = 0;
+            // are we moving in absolute terms
+            // or relative to current position
+            Vector3 startPosition = gameObject.transform.localPosition;
+
+            if (duration < 0.0001f)
+            {
+                gameObject.transform.localPosition = targetTransform.position;
+            }
+            else
+            {
+                while (elapsedTime < duration)
+                {
+                    // update the transform
+                    Vector3 endPosition = targetTransform.position;
+                    // this interpolates position
+                    float t = elapsedTime / duration;
+                    // shift 't' based on the easing function
+                    t = Utils.GetT(t, easing, cubicBezier);
+                    elapsedTime += Time.deltaTime;
+                    // set the position
+                    Vector3 interpolatedPosition = Vector3.Lerp(startPosition, endPosition, t);
+                    gameObject.transform.localPosition = interpolatedPosition;
+                    yield return null;
+                }
+                gameObject.transform.localPosition = targetTransform.position;
+            }
+
+            // Destroy if specified
+            if (destroy)
+            {
+                GameObject.Destroy(gameObject);
+            }
+        }
+
+
+        /// <summary>
+        /// Coroutine for tweening rotation.
+        /// </summary>
+        public static IEnumerator TweenRotationCoroutine(GameObject gameObject, Quaternion targetRotation, float duration, Easing easing, bool destroy, bool isRelative, string cubicBezier)
 		{
 			float elapsedTime = 0;
 			// are we moving in absolute terms
