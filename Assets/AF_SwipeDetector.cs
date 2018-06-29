@@ -11,7 +11,7 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     public GameObject[] _tubeComponents;
     private int _currentTubeComponentIndex = 0;
-    public float _tweenTime = 1.2f;
+    public float _tweenTime = 3.0f;
 
     public AudioSource _audioSource;
 
