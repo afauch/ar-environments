@@ -63,7 +63,8 @@ public class AF_SwipeDetector : MonoBehaviour {
 
         if(_isExtended)
         {
-            
+            float f = Vector3.Angle(_palmFacingTransform.position, _tube.transform.position);
+            Debug.Log(f);
         }
 
     }
