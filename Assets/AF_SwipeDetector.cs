@@ -20,8 +20,9 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     public AudioSource _audioSource;
 
-    Vector3 _initPosition;
-    float _positionDelta = 0.0f;
+    float _initAngle;
+    float _angleDelta = 0.0f;
+    float _initTubeYRot = 0.0f;
 
 
     private void Update()
@@ -32,8 +33,9 @@ public class AF_SwipeDetector : MonoBehaviour {
     public void OnAllExtended()
     {
         Debug.Log("All Extended.");
-        _positionDelta = 0.0f;
-        _initPosition = _palmFacingTransform.transform.position;
+        _angleDelta = 0.0f;
+        _initTubeYRot = _tube.transform.rotation.eulerAngles.y;
+        _initAngle = GetSignedAngle(_bodyCenter, _palmFacingTransform);
         _isExtended = true;
         // RotateToNextLens();
 
@@ -42,7 +44,6 @@ public class AF_SwipeDetector : MonoBehaviour {
     public void OnNotExtended()
     {
         Debug.Log("Not Extended.");
-        _initPosition = Vector3.zero;
         _isExtended = false;
     }
 
@@ -51,7 +52,12 @@ public class AF_SwipeDetector : MonoBehaviour {
 
         if(_isExtended)
         {
-            GetSignedAngle(_bodyCenter.transform, _palmFacingTransform);
+            _angleDelta = _initAngle - GetSignedAngle(_bodyCenter.transform, _palmFacingTransform);
+            Debug.Log(_angleDelta);
+            _tube.transform.rotation = Quaternion.Euler(
+                _tube.transform.rotation.x,
+                _initTubeYRot - _angleDelta,
+                _tube.transform.rotation.z);
         }
 
     }
@@ -84,7 +90,7 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     }
 
-    private void GetSignedAngle(Transform center, Transform satellite)
+    private float GetSignedAngle(Transform center, Transform satellite)
     {
         //Vector3 centerPos = center.position;
         //Vector3 satellitePos = new Vector3 (satellite.position.x, center.position.y, satellite.position.z);
@@ -101,7 +107,9 @@ public class AF_SwipeDetector : MonoBehaviour {
         forward.y = 0.0f;
 
         float angleBetween = Vector3.SignedAngle(forward, targetDir, Vector3.up);
-        Debug.Log(angleBetween);
+        // Debug.Log(angleBetween);
+
+        return angleBetween;
 
     }
 
