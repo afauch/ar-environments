@@ -13,19 +13,52 @@ public class AF_SwipeDetector : MonoBehaviour {
     private int _currentTubeComponentIndex = 0;
     public float _tweenTime = 3.0f;
 
+    public LineRenderer _lr;
+
     public AudioSource _audioSource;
+
+    Vector3 _initPosition;
+    float _positionDelta = 0.0f;
 
 
     private void Update()
     {
-        // GetCouldSwipe();
+        GetCouldSwipe();
     }
 
     public void OnAllExtended()
     {
         Debug.Log("All Extended.");
+        _positionDelta = 0.0f;
+        _initPosition = _palmFacingTransform.transform.position;
         _isExtended = true;
+        // RotateToNextLens();
 
+    }
+
+    public void OnNotExtended()
+    {
+        Debug.Log("Not Extended.");
+        _initPosition = Vector3.zero;
+        _isExtended = false;
+    }
+
+    private void GetCouldSwipe()
+    {
+
+        if(_isExtended)
+        {
+            _positionDelta = Vector3.Distance(_initPosition, _palmFacingTransform.transform.position);
+            Debug.Log(_positionDelta);
+
+            _lr.SetPosition(0, _tube.transform.position);
+            _lr.SetPosition(1, _palmFacingTransform.transform.position);
+        }
+
+    }
+
+    private void RotateToNextLens()
+    {
         // Rotate the chassis
         _tube.SetRelativeRotation(new Vector3(0.0f, 90.0f, 0.0f), _tweenTime, Easing.BounceOut);
         _audioSource.Play();
@@ -40,7 +73,8 @@ public class AF_SwipeDetector : MonoBehaviour {
         if (_currentTubeComponentIndex == 0)
         {
             _currentTubeComponentIndex = 3;
-        } else
+        }
+        else
         {
             _currentTubeComponentIndex -= 1;
         }
@@ -49,24 +83,12 @@ public class AF_SwipeDetector : MonoBehaviour {
         _tubeComponents[_currentTubeComponentIndex].SetOpacity(1.0f, _tweenTime);
         _tubeComponents[_currentTubeComponentIndex].SetPosition(new Vector3(0.0f, 6.0f, 0.0f), _tweenTime, Easing.CubicOut);
 
-
     }
 
-    public void OnNotExtended()
-    {
-        Debug.Log("Not Extended.");
-        _isExtended = false;
-    }
-
-    private void GetCouldSwipe()
+    private void GetSignedAngle()
     {
 
-        if(_isExtended)
-        {
-            float f = Vector3.Angle(_palmFacingTransform.position, _tube.transform.position);
-            Debug.Log(f);
-        }
-
+        
     }
 
 }
