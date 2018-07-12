@@ -7,6 +7,7 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     private bool _isExtended = false;
     public Transform _palmFacingTransform;
+    public GameObject _tubeShell;
     public GameObject _tube;
     public Transform _bodyCenter;
 
@@ -25,16 +26,16 @@ public class AF_SwipeDetector : MonoBehaviour {
     float _initTubeYRot = 0.0f;
 
 
-    private void Update()
+    private void FixedUpdate()
     {
-        GetCouldSwipe();
+        AdjustTransform();
     }
 
     public void OnAllExtended()
     {
         Debug.Log("All Extended.");
         _angleDelta = 0.0f;
-        _initTubeYRot = _tube.transform.rotation.eulerAngles.y;
+        _initTubeYRot = _tube.transform.localRotation.eulerAngles.y;
         _initAngle = GetSignedAngle(_bodyCenter, _palmFacingTransform);
         _isExtended = true;
         // RotateToNextLens();
@@ -47,17 +48,35 @@ public class AF_SwipeDetector : MonoBehaviour {
         _isExtended = false;
     }
 
-    private void GetCouldSwipe()
+
+    private void AdjustTransform()
     {
 
         if(_isExtended)
         {
             _angleDelta = _initAngle - GetSignedAngle(_bodyCenter.transform, _palmFacingTransform);
             Debug.Log(_angleDelta);
-            _tube.transform.rotation = Quaternion.Euler(
-                _tube.transform.rotation.x,
+
+
+            _tubeShell.transform.position = _bodyCenter.position;
+            _tubeShell.transform.rotation = Quaternion.Euler(
+                0.0f,
+                _bodyCenter.rotation.eulerAngles.y,
+                0.0f);
+
+            _tube.transform.localRotation = Quaternion.Euler(
+                0.0f,
                 _initTubeYRot - _angleDelta,
-                _tube.transform.rotation.z);
+                0.0f);
+
+        } else
+        {
+
+            _tubeShell.transform.position = _bodyCenter.position;
+            _tubeShell.transform.rotation = Quaternion.Euler(
+                0.0f,
+                _bodyCenter.rotation.eulerAngles.y,
+                0.0f);
         }
 
     }

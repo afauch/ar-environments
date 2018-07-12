@@ -1216,7 +1216,7 @@ Transform:
   - {fileID: 1584747794}
   - {fileID: 1977063480}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &78878262
 GameObject:
@@ -6836,7 +6836,7 @@ Transform:
   - {fileID: 1734628122}
   - {fileID: 10794972}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661933835
 GameObject:
@@ -10117,7 +10117,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1167673477}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1035888824
 GameObject:
@@ -11381,7 +11381,6 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 53688853}
-  - {fileID: 1816134715}
   - {fileID: 1021813650}
   m_Father: {fileID: 514687575}
   m_RootOrder: 2
@@ -13762,6 +13761,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1223718660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1223718661}
+  m_Layer: 0
+  m_Name: TubeShell
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1223718661
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223718660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 0.021363283, z: 1}
+  m_Children:
+  - {fileID: 1816134715}
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1227268014
 GameObject:
   m_ObjectHideFlags: 0
@@ -14814,7 +14842,7 @@ Transform:
   - {fileID: 1841115539}
   - {fileID: 2142661692}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308341536
 GameObject:
@@ -18812,6 +18840,34 @@ MonoBehaviour:
   startMenuAlias: 102
   touchModifier: 116
   hairTouchModifier: 104
+--- !u!1 &1751469778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1751469779}
+  m_Layer: 0
+  m_Name: ===Masked UI===
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1751469779
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1751469778}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7255, y: 1.6225, z: -0.19119999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1752176095
 GameObject:
   m_ObjectHideFlags: 0
@@ -19035,6 +19091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _palmFacingTransform: {fileID: 291117036}
+  _tubeShell: {fileID: 1223718660}
   _tube: {fileID: 1816134714}
   _bodyCenter: {fileID: 1021813650}
   _tubeComponents:
@@ -19442,9 +19499,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1816134714}
-  m_LocalRotation: {x: -0, y: 0.38268343, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: -1.75, z: 0}
-  m_LocalScale: {x: 5, y: 0.10681641, z: 5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 692799966}
   - {fileID: 940260829}
@@ -19454,8 +19511,8 @@ Transform:
   - {fileID: 1682186939}
   - {fileID: 1691185244}
   - {fileID: 57193138}
-  m_Father: {fileID: 1167673477}
-  m_RootOrder: 1
+  m_Father: {fileID: 1223718661}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1816134716
 AudioSource:
@@ -19610,7 +19667,7 @@ Transform:
   - {fileID: 1166894215}
   - {fileID: 526005797}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1820249231
 GameObject:
