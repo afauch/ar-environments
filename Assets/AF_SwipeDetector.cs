@@ -11,9 +11,12 @@ public class AF_SwipeDetector : MonoBehaviour {
     public GameObject _tube;
     public Transform _bodyCenter;
 
+    private float _snapThreshold = 25.0f;
+
     public GameObject[] _tubeComponents;
+    public float[] _snapRotations;
     private int _currentTubeComponentIndex = 0;
-    public float _tweenTime = 3.0f;
+    public float _tweenTime = 4.0f;
 
     public LineRenderer _lr1;
     public LineRenderer _lr2;
@@ -28,6 +31,7 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        // Debug.Log(_currentTubeComponentIndex);
         AdjustTransform();
     }
 
@@ -45,6 +49,7 @@ public class AF_SwipeDetector : MonoBehaviour {
     public void OnNotExtended()
     {
         Debug.Log("Not Extended.");
+        SnapTo(_currentTubeComponentIndex);
         _isExtended = false;
     }
 
@@ -55,7 +60,7 @@ public class AF_SwipeDetector : MonoBehaviour {
         if(_isExtended)
         {
             _angleDelta = _initAngle - GetSignedAngle(_bodyCenter.transform, _palmFacingTransform);
-            Debug.Log(_angleDelta);
+            // Debug.Log(_angleDelta);
 
 
             _tubeShell.transform.position = _bodyCenter.position;
@@ -64,9 +69,43 @@ public class AF_SwipeDetector : MonoBehaviour {
                 _bodyCenter.rotation.eulerAngles.y,
                 0.0f);
 
+
+            float offset = _initTubeYRot - _angleDelta;
+
+            // TODO: Normalize angle value between 0 and 360
+            if(offset < 0)
+            {
+                offset += 360;
+            }
+
+            if (_angleDelta > _snapThreshold)
+            {
+                Debug.Log("Threshold passed (positive)");
+                _currentTubeComponentIndex = GetNext(_currentTubeComponentIndex);
+
+                // TODO: I Think the problem here has to do with how the tweener handles
+                // negative angles and 
+                SnapTo(_currentTubeComponentIndex);
+                _isExtended = false; // reset interaction
+
+                _audioSource.Play();
+
+
+            }
+            else if (_angleDelta < (-1.0f * _snapThreshold))
+            {
+                Debug.Log("Threshold passed (negative)");
+                _currentTubeComponentIndex = GetPrev(_currentTubeComponentIndex);
+                SnapTo(_currentTubeComponentIndex);
+                _isExtended = false; // reset interaction
+
+                _audioSource.Play();
+
+            }
+
             _tube.transform.localRotation = Quaternion.Euler(
                 0.0f,
-                _initTubeYRot - _angleDelta,
+                offset,
                 0.0f);
 
         } else
@@ -81,13 +120,52 @@ public class AF_SwipeDetector : MonoBehaviour {
 
     }
 
+    private int GetNext(int current)
+    {
+        int nextIndex = current;
+        if (current == 3)
+        {
+            nextIndex = 0;
+        }
+        else
+        {
+            nextIndex += 1;
+        }
+        return nextIndex;
+    }
+
+    private int GetPrev(int current)
+    {
+        int prevIndex = current;
+        if (current == 0)
+        {
+            prevIndex = 3;
+        }
+        else
+        {
+            prevIndex -= 1;
+        }
+        return prevIndex;
+    }
+
+    private void SnapTo(int i)
+    {
+
+        // get the angle to snap to
+        float angle = _snapRotations[i];
+
+        _tube.SetRotation(new Vector3(0.0f, angle, 0.0f), _tweenTime, Easing.BounceOut);
+
+
+    }
+
+
     private void RotateToNextLens()
     {
         // Rotate the chassis
         _tube.SetRelativeRotation(new Vector3(0.0f, 90.0f, 0.0f), _tweenTime, Easing.BounceOut);
         _audioSource.Play();
 
-        Debug.Log(_tubeComponents[_currentTubeComponentIndex].name);
 
         // Fade Out the current one
         _tubeComponents[_currentTubeComponentIndex].SetOpacity(0.0f, _tweenTime);
